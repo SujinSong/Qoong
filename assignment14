@@ -1,0 +1,36 @@
+import requests
+r=requests.get('https://www.vox.com/2018/9/25/17901082/trump-un-2018-speech-full-text')
+r.encoding='utf8'
+data=str(r.text)
+begin=data.find('Madam President')
+end=data.find('Thank you. (Applause.)')
+e=len('Thank you. (Applause.)')
+a=data[begin: end+e]
+a=a.replace('.', '')
+a=a.replace(',', ' ')
+a=a.replace('-', ' ')
+a=a.replace(':', '')
+a=a.replace('”', '')
+a=a.replace('“', '')
+a=a.replace("'s", '')
+a=a.replace('<p', '')
+
+mydict={}
+b=a.split()
+
+for w in b:
+    if w in mydict:
+        mydict[w]+=1
+    else:
+        mydict[w]=1
+
+def most_often(mydict):
+    t=[]
+    for key, value in mydict.items():
+        t.append((value, key))
+    t.sort(reverse=True)
+    return t
+
+t=most_often(mydict)
+for mydict in t[:20]:
+    print(mydict)
